@@ -7,13 +7,14 @@ import {
   resetPage,
 } from "../redux/slices/searchSlice.js";
 import getGif from "../apis/gifApi.js";
+import client from "../apis/videoApi.js";
 
 const Searchbox = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const dispatch = useDispatch();
 
-  const { page, tabs } = useSelector((store) => store.search);
+  const { page, tabs, results } = useSelector((store) => store.search);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +54,20 @@ const Searchbox = () => {
           id: item.id,
           url: item.file.sm.gif.url,
         }));
+      } else if (tabs == "Videos") {
+        client.videos
+          .search({ query: `${searchQuery}`, per_page: 9, page })
+          .then((videos) => {
+            {
+              data = videos.videos.map((item) => ({
+                type: "Mp4",
+                id: item.id,
+                url: item.video_pictures[0].picture,
+                video_url: item.video_files[0].link,
+              }));
+            }
+            dispatch(setResults(data));
+          });
       }
 
       dispatch(setResults(data));
@@ -78,8 +93,23 @@ const Searchbox = () => {
           id: item.id,
           url: item.file.sm.gif.url,
         }));
+      } else if (tabs == "Videos") {
+        client.videos
+          .search({ query: `${searchQuery}`, per_page: 9, page })
+          .then((videos) => {
+            {
+              data = videos.videos.map((item) => ({
+                type: "Mp4",
+                id: item.id,
+                url: item.video_pictures[0].picture,
+                video_url: item.video_files[0].link,
+              }));
+            }
+            dispatch(setResults(data));
+          });
       }
 
+      console.log(results);
       dispatch(setResults(data));
     }
     tabChange();

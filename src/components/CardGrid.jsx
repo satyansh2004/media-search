@@ -21,6 +21,7 @@ const CardGrid = () => {
           <Cards
             key={item.id}
             imgSrc={item.url}
+            vidSrc={item.video_url}
             handleCollection={() => {
               dispatch(saveToLocalStorage(item.url));
             }}
