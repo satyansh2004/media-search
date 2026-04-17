@@ -17,4 +17,4 @@ npm run dev
 ```
 ---
 
-#### Live link: https://satyanshchand.netlify.app/
+#### Live link: https://react-mediasearch.netlify.app/
