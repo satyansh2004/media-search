@@ -6,13 +6,14 @@ import {
   setResults,
   resetPage,
 } from "../redux/slices/searchSlice.js";
+import getGif from "../apis/gifApi.js";
 
 const Searchbox = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const dispatch = useDispatch();
 
-  const { page } = useSelector((store) => store.search);
+  const { page, tabs } = useSelector((store) => store.search);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +21,7 @@ const Searchbox = () => {
       dispatch(setQuery(searchQuery));
 
       let data;
+
       const response = await getUnsplash(searchQuery, page);
       data = response.map((item) => ({
         type: item.asset_type,
@@ -36,17 +38,52 @@ const Searchbox = () => {
   useEffect(() => {
     async function next() {
       let data;
-      const response = await getUnsplash(searchQuery, page);
-      data = response.map((item) => ({
-        type: item.asset_type,
-        id: item.id,
-        url: item.urls.full,
-      }));
+
+      if (tabs == "Photos") {
+        const response = await getUnsplash(searchQuery, page);
+        data = response.map((item) => ({
+          type: item.asset_type,
+          id: item.id,
+          url: item.urls.full,
+        }));
+      } else if (tabs == "Gifs") {
+        const response = await getGif(searchQuery, page);
+        data = response.data.map((item) => ({
+          type: item.type,
+          id: item.id,
+          url: item.file.sm.gif.url,
+        }));
+      }
 
       dispatch(setResults(data));
     }
     next();
   }, [page]);
+
+  useEffect(() => {
+    async function tabChange() {
+      let data;
+
+      if (tabs == "Photos") {
+        const response = await getUnsplash(searchQuery, page);
+        data = response.map((item) => ({
+          type: item.asset_type,
+          id: item.id,
+          url: item.urls.full,
+        }));
+      } else if (tabs == "Gifs") {
+        const response = await getGif(searchQuery, page);
+        data = response.data.map((item) => ({
+          type: item.type,
+          id: item.id,
+          url: item.file.sm.gif.url,
+        }));
+      }
+
+      dispatch(setResults(data));
+    }
+    tabChange();
+  }, [tabs]);
 
   return (
     <form

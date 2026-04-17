@@ -1,7 +1,17 @@
 import Navbar from "./components/Navbar";
 import { Outlet } from "react-router";
+import getGif from "./apis/gifApi.js";
+import { useEffect } from "react";
 
 const App = () => {
+
+  useEffect(() => {
+    async function hello() {
+      const result = await getGif("Cat", 1);
+      console.log(result.data)
+    }
+    hello()
+  }, [])
 
   return (
     <>

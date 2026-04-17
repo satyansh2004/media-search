@@ -7,6 +7,7 @@ const searchSlice = createSlice({
     results: [],
     error: null,
     page: 1,
+    tabs: "Photos"
   },
 
   reducers: {
@@ -36,10 +37,14 @@ const searchSlice = createSlice({
 
     resetPage: (state, action) => {
       state.page = 1;
+    },
+
+    setTabs: (state, action) => {
+      state.tabs = action.payload
     }
   },
 });
 
-export const { setQuery, setResults, setError, nextPage, prevPage, resetPage } = searchSlice.actions;
+export const { setQuery, setResults, setError, nextPage, prevPage, resetPage, setTabs } = searchSlice.actions;
 
 export default searchSlice.reducer;

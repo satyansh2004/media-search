@@ -3,6 +3,7 @@ import Searchbox from "./Searchbox";
 import { useSelector, useDispatch } from "react-redux";
 import { saveToLocalStorage } from "../redux/slices/collectionSlice.js";
 import PageChange from "./PageChange.jsx"
+import Tabs from "./Tabs.jsx";
 
 const CardGrid = () => {
   const { results } = useSelector((store) => store.search);
@@ -12,6 +13,8 @@ const CardGrid = () => {
   return (
     <>
       <Searchbox />
+
+      <Tabs />
 
       <div className="mt-[10vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full justify-items-center gap-y-4">
         {results?.map((item) => (
