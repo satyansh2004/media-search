@@ -2,7 +2,7 @@
 
 This project was built for me to learn React Redux and its use cases
 
-## Steps to use
+## Steps to use locally
 ```
 git clone https://github.com/satyansh2004/media-search.git
 ```
